@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tarjeta QR · Brújula para el egreso</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Young+Serif&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+  :root{--paper:#F5EFE3;--card:#FFFBF4;--ink:#1D2830;--ink-2:#46525C;--line:#DCCFBA;--n:#2C6A62;--e:#AE4F37;--s:#86496E;--o:#33598A;--gold:#BF8820;--help:#A63E2A;
+    --display:"Young Serif",Georgia,serif;--body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;color-scheme:light}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.5}
+  .panel{max-width:880px;margin:0 auto;padding:24px 16px 8px}
+  h1{font-family:var(--display);font-weight:400;font-size:clamp(1.8rem,6vw,2.6rem);margin:0 0 .4rem}
+  .panel p{color:var(--ink-2);margin:.2rem 0 1rem}
+  label{display:block;font-weight:700;margin:.8rem 0 .35rem}
+  input[type=url]{width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink)}
+  .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;align-items:center}
+  button,select{font:inherit;font-weight:700;min-height:46px;padding:0 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+  button.primary{background:var(--n);border-color:var(--n);color:#fff}
+  .warn{display:none;margin-top:12px;padding:12px 14px;border-radius:12px;background:#F6E1D6;color:#84381F;font-weight:700}
+  .warn.on{display:block}
+  .sheet{display:grid;gap:16px;max-width:880px;margin:16px auto 40px;padding:0 16px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+  .tarjeta{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 20px 18px;text-align:center;overflow:hidden;break-inside:avoid}
+  .tarjeta::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:linear-gradient(90deg,var(--n) 0 25%,var(--e) 25% 50%,var(--s) 50% 75%,var(--o) 75%)}
+  .marca{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:6px}
+  .marca svg{width:34px;height:34px}
+  .marca b{font-family:var(--display);font-weight:400;font-size:1.45rem;line-height:1.05;text-align:left}
+  .marca b small{display:block;font-family:var(--body);font-weight:700;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-2)}
+  .sub{font-size:.95rem;color:var(--ink-2);margin:.5rem 0 .8rem}
+  .qr{width:62%;max-width:240px;margin:0 auto;aspect-ratio:1}
+  .qr svg{width:100%;height:100%;display:block}
+  .scan{font-weight:700;margin:.7rem 0 .1rem}
+  .url{font-size:.78rem;color:var(--ink-2);word-break:break-all}
+  .ayuda{margin:.9rem auto 0;padding:8px 10px;border-radius:12px;background:#F6E1D6;color:#84381F;font-size:.82rem;font-weight:700}
+  .pie{font-size:.7rem;color:var(--ink-2);margin-top:.7rem}
+  @media print{
+    @page{size:A4;margin:10mm}
+    body{background:#fff}
+    .panel{display:none}
+    .sheet{margin:0;padding:0;gap:6mm;grid-template-columns:1fr 1fr;max-width:none}
+    .sheet.uno{grid-template-columns:1fr;width:120mm;margin:0 auto}
+    .tarjeta{border:1px dashed #999;border-radius:6mm;height:132mm;display:flex;flex-direction:column;justify-content:center;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .sheet.uno .tarjeta{height:auto;padding:14mm 10mm}
+  }
+</style>
+</head>
+<body>
+<section class="panel">
+  <h1>Tarjeta con código QR</h1>
+  <p>Para el personal de enfermería: imprime estas tarjetas y entrégalas al momento del egreso. El código lleva directo a la Brújula. Abre esta página desde la dirección <strong>https</strong> ya publicada para que el QR apunte al lugar correcto.</p>
+  <label for="url">Dirección de la página (https)</label>
+  <input type="url" id="url" inputmode="url" autocomplete="off" spellcheck="false">
+  <div class="row">
+    <label for="cant" style="margin:0">Tarjetas por hoja:</label>
+    <select id="cant"><option value="4">4 (para recortar)</option><option value="2">2</option><option value="1">1 grande</option></select>
+    <button class="primary" type="button" id="imprimir">Imprimir</button>
+    <button type="button" id="png">Descargar QR (imagen PNG)</button>
+  </div>
+  <div class="warn" id="warn">Esta dirección no es pública (localhost, archivo local o sin https). Publica primero la página y genera el QR desde la dirección final.</div>
+</section>
+<section class="sheet" id="sheet" aria-label="Vista previa de las tarjetas"></section>
+
+<script>
+"use strict";
+const $ = s => document.querySelector(s);
+const base = location.href.replace(/[#?].*$/, "").replace(/tarjeta-qr\.html$/, "");
+$("#url").value = base;
+
+function qrMatrix(text) {
+  if (typeof qrcode === "undefined") return null;
+  if (qrcode.stringToBytesFuncs && qrcode.stringToBytesFuncs["UTF-8"]) qrcode.stringToBytes = qrcode.stringToBytesFuncs["UTF-8"];
+  const qr = qrcode(0, "M"); qr.addData(text); qr.make();
+  return qr;
+}
+function qrSVG(qr) {
+  const n = qr.getModuleCount(), m = 4, size = n + m * 2; let d = "";
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (qr.isDark(r, c)) d += `M${c + m} ${r + m}h1v1h-1z`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" shape-rendering="crispEdges" role="img" aria-label="Código QR"><rect width="${size}" height="${size}" fill="#fff"/><path d="${d}" fill="#1D2830"/></svg>`;
+}
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const mark = `<svg viewBox="-50 -50 100 100" aria-hidden="true"><circle r="46" fill="#FFFBF4" stroke="#1D2830" stroke-width="4"/><path d="M0-38L8-8 0 0-8-8z" fill="#2C6A62"/><path d="M38 0L8 8 0 0 8-8z" fill="#AE4F37"/><path d="M0 38L-8 8 0 0 8 8z" fill="#86496E"/><path d="M-38 0L-8-8 0 0-8 8z" fill="#33598A"/><circle r="5" fill="#BF8820"/></svg>`;
+
+function render() {
+  const url = $("#url").value.trim();
+  const isPublic = /^https:\/\//i.test(url) && !/localhost|127\.0\.0\.1/i.test(url);
+  $("#warn").classList.toggle("on", !isPublic);
+  const qr = url ? qrMatrix(url) : null;
+  const qrHTML = qr ? qrSVG(qr) : `<p style="padding:30% 0">No se pudo cargar el generador de QR. Revisa tu conexión a internet.</p>`;
+  const n = Number($("#cant").value);
+  $("#sheet").className = "sheet" + (n === 1 ? " uno" : "");
+  const card = `<article class="tarjeta">
+      <div class="marca">${mark}<b>Brújula<small>para el egreso</small></b></div>
+      <p class="sub">Herramientas para tu día a día después de la hospitalización</p>
+      <div class="qr">${qrHTML}</div>
+      <p class="scan">Escanea con la cámara de tu celular</p>
+      <p class="url">${esc(url)}</p>
+      <p class="ayuda">¿Necesitas ayuda ya? Línea 106 · Emergencias 123</p>
+      <p class="pie">Herramienta psicoeducativa. No reemplaza la atención clínica.<br>Psicología · Universidad del Rosario · Clínica La Inmaculada</p>
+    </article>`;
+  $("#sheet").innerHTML = card.repeat(n);
+}
+$("#url").addEventListener("input", render);
+$("#cant").addEventListener("change", render);
+$("#imprimir").addEventListener("click", () => window.print());
+$("#png").addEventListener("click", () => {
+  const qr = qrMatrix($("#url").value.trim()); if (!qr) return;
+  const n = qr.getModuleCount(), m = 4, scale = Math.floor(1200 / (n + m * 2)), size = (n + m * 2) * scale;
+  const cv = document.createElement("canvas"); cv.width = cv.height = size;
+  const g = cv.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, size, size); g.fillStyle = "#1D2830";
+  for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (qr.isDark(r, c)) g.fillRect((c + m) * scale, (r + m) * scale, scale, scale);
+  const a = document.createElement("a"); a.href = cv.toDataURL("image/png"); a.download = "qr-brujula-para-el-egreso.png"; a.click();
+});
+window.addEventListener("load", render);
+</script>
+</body>
+</html>
