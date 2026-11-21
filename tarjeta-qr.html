@@ -11,7 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Young+Serif&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <style>
-  :root{--paper:#F5EFE3;--card:#FFFBF4;--ink:#1D2830;--ink-2:#46525C;--line:#DCCFBA;--n:#2C6A62;--e:#AE4F37;--s:#86496E;--o:#33598A;--gold:#BF8820;--help:#A63E2A;
+  /* Paleta institucional: Hermanas Hospitalarias · Clínica La Inmaculada */
+  :root{--paper:#faf8fa;--card:#ffffff;--ink:#1f2428;--ink-2:#4a5157;--line:#e2dde1;--p:#7f0b4c;--p-2:#f6e8f0;--q:#96dadf;--q-2:#f4fbfb;
     --display:"Young Serif",Georgia,serif;--body:"Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;color-scheme:light}
   *{box-sizing:border-box}
   body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);line-height:1.5}
@@ -22,12 +23,12 @@
   input[type=url]{width:100%;font:inherit;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--card);color:var(--ink)}
   .row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;align-items:center}
   button,select{font:inherit;font-weight:700;min-height:46px;padding:0 18px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
-  button.primary{background:var(--n);border-color:var(--n);color:#fff}
-  .warn{display:none;margin-top:12px;padding:12px 14px;border-radius:12px;background:#F6E1D6;color:#84381F;font-weight:700}
+  button.primary{background:var(--p);border-color:var(--p);color:#fff}
+  .warn{display:none;margin-top:12px;padding:12px 14px;border-radius:12px;background:var(--p-2);color:var(--p);font-weight:700}
   .warn.on{display:block}
   .sheet{display:grid;gap:16px;max-width:880px;margin:16px auto 40px;padding:0 16px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
   .tarjeta{position:relative;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 20px 18px;text-align:center;overflow:hidden;break-inside:avoid}
-  .tarjeta::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:linear-gradient(90deg,var(--n) 0 25%,var(--e) 25% 50%,var(--s) 50% 75%,var(--o) 75%)}
+  .tarjeta::before{content:"";position:absolute;left:0;right:0;top:0;height:8px;background:linear-gradient(90deg,var(--p) 0 50%,var(--q) 50%)}
   .marca{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:6px}
   .marca svg{width:34px;height:34px}
   .marca b{font-family:var(--display);font-weight:400;font-size:1.45rem;line-height:1.05;text-align:left}
@@ -37,7 +38,7 @@
   .qr svg{width:100%;height:100%;display:block}
   .scan{font-weight:700;margin:.7rem 0 .1rem}
   .url{font-size:.78rem;color:var(--ink-2);word-break:break-all}
-  .ayuda{margin:.9rem auto 0;padding:8px 10px;border-radius:12px;background:#F6E1D6;color:#84381F;font-size:.82rem;font-weight:700}
+  .ayuda{margin:.9rem auto 0;padding:8px 10px;border-radius:12px;background:var(--p-2);color:var(--p);font-size:.82rem;font-weight:700}
   .pie{font-size:.7rem;color:var(--ink-2);margin-top:.7rem}
   @media print{
     @page{size:A4;margin:10mm}
@@ -81,10 +82,10 @@ function qrMatrix(text) {
 function qrSVG(qr) {
   const n = qr.getModuleCount(), m = 4, size = n + m * 2; let d = "";
   for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (qr.isDark(r, c)) d += `M${c + m} ${r + m}h1v1h-1z`;
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" shape-rendering="crispEdges" role="img" aria-label="Código QR"><rect width="${size}" height="${size}" fill="#fff"/><path d="${d}" fill="#1D2830"/></svg>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}" shape-rendering="crispEdges" role="img" aria-label="Código QR"><rect width="${size}" height="${size}" fill="#fff"/><path d="${d}" fill="#1f2428"/></svg>`;
 }
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-const mark = `<svg viewBox="-50 -50 100 100" aria-hidden="true"><circle r="46" fill="#FFFBF4" stroke="#1D2830" stroke-width="4"/><path d="M0-38L8-8 0 0-8-8z" fill="#2C6A62"/><path d="M38 0L8 8 0 0 8-8z" fill="#AE4F37"/><path d="M0 38L-8 8 0 0 8 8z" fill="#86496E"/><path d="M-38 0L-8-8 0 0-8 8z" fill="#33598A"/><circle r="5" fill="#BF8820"/></svg>`;
+const mark = `<svg viewBox="-50 -50 100 100" aria-hidden="true"><circle r="46" fill="#ffffff" stroke="#7f0b4c" stroke-width="4"/><path d="M0-38L8-8 0 0-8-8z" fill="#7f0b4c"/><path d="M38 0L8 8 0 0 8-8z" fill="#96dadf"/><path d="M0 38L-8 8 0 0 8 8z" fill="#7f0b4c"/><path d="M-38 0L-8-8 0 0-8 8z" fill="#96dadf"/><circle r="6" fill="#ffffff" stroke="#1f2428" stroke-width="3"/></svg>`;
 
 function render() {
   const url = $("#url").value.trim();
@@ -112,7 +113,7 @@ $("#png").addEventListener("click", () => {
   const qr = qrMatrix($("#url").value.trim()); if (!qr) return;
   const n = qr.getModuleCount(), m = 4, scale = Math.floor(1200 / (n + m * 2)), size = (n + m * 2) * scale;
   const cv = document.createElement("canvas"); cv.width = cv.height = size;
-  const g = cv.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, size, size); g.fillStyle = "#1D2830";
+  const g = cv.getContext("2d"); g.fillStyle = "#fff"; g.fillRect(0, 0, size, size); g.fillStyle = "#1f2428";
   for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) if (qr.isDark(r, c)) g.fillRect((c + m) * scale, (r + m) * scale, scale, scale);
   const a = document.createElement("a"); a.href = cv.toDataURL("image/png"); a.download = "qr-brujula-para-el-egreso.png"; a.click();
 });

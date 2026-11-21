@@ -1,8 +1,8 @@
 /* Brújula para el egreso · service worker
    Permite abrir la página sin conexión después de la primera visita.
    Si cambias index.html, sube el número de versión para forzar la actualización. */
-const VERSION = "brujula-v1";
-const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
+const VERSION = "brujula-v2";
+const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png", "./assets/logo-clinica.png", "./assets/logo-urosario.png"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(

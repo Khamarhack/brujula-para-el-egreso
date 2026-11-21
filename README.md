@@ -16,6 +16,14 @@ Es un **sitio estático**: no tiene servidor, base de datos, registro ni recolec
 | `sw.js` | Permite que la página abra sin conexión después de la primera visita. |
 | `manifest.webmanifest` | Permite «Agregar a la pantalla de inicio» como si fuera una app. |
 | `icon.svg`, `icon-192.png`, `icon-512.png`, `apple-touch-icon.png` | Íconos de la app. |
+| `assets/logo-clinica.png`, `assets/logo-urosario.png` | Logos de Hermanas Hospitalarias · Clínica La Inmaculada y de la Universidad del Rosario. Aparecen en el encabezado y en el pie de página. |
+
+### Identidad visual
+
+- La paleta usa solo los colores institucionales de Hermanas Hospitalarias · Clínica La Inmaculada: **primario `#7f0b4c`** y **secundario `#96dadf`**. Como apoyo neutro usa blanco `#ffffff`, fondos `#faf8fa` / `#f4fbfb` y gris oscuro `#1f2428`. Los fondos suaves son tintes claros de esos mismos dos colores.
+- Los puntos cardinales alternan los dos colores: **N** (Mindfulness) y **S** (Emociones) usan el primario; **E** (Relaciones) y **O** (Tolerancia) usan el secundario, siempre con texto en gris oscuro para que se lea bien.
+- Los colores están definidos una sola vez, al inicio del `<style>` de `index.html` (variables `--p` y `--q`).
+- El logo de la Universidad del Rosario se convirtió de fondo negro a fondo blanco, sin cambiar su rojo oficial. Los dos logos van en contenedores blancos y discretos que funcionan en modo claro y en modo oscuro. Si reemplazas los archivos, mantén los mismos nombres dentro de `assets/`.
 
 ### Arquitectura
 
@@ -117,6 +125,7 @@ Recomendación: **GitHub Pages**. Es gratis, no tiene créditos que se agoten, e
 ## 5. Actualizar el contenido después
 
 - **GitHub:** abre el archivo en el repositorio → ícono de lápiz (*Edit*) → cambia → **Commit changes**. O vuelve a usar *Add file → Upload files* para reemplazarlo. En 1 o 2 minutos se ve el cambio.
+  - Para subir todo de una vez: entra a la carpeta `brujula-para-el-egreso`, selecciona todo con **Ctrl + A** y arrástralo a *Upload files*. Así se incluye la carpeta `assets` con los logos, y los archivos con el mismo nombre se reemplazan.
 - **Netlify:** *Deploys* → arrastra de nuevo la carpeta.
 - Si cambias íconos o el manifiesto, sube también el número de `VERSION` en `sw.js` (por ejemplo `brujula-v2`) para que los celulares descarguen la versión nueva.
 
