@@ -1,7 +1,7 @@
 /* Brújula para el egreso · service worker
    Permite abrir la página sin conexión después de la primera visita.
    Si cambias index.html, sube el número de versión para forzar la actualización. */
-const VERSION = "brujula-v2";
+const VERSION = "brujula-v3";
 const CORE = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png", "./assets/logo-clinica.png", "./assets/logo-urosario.png"];
 
 self.addEventListener("install", (e) => {
@@ -26,9 +26,11 @@ self.addEventListener("fetch", (e) => {
   const url = new URL(req.url);
 
   // Páginas: primero la red (para recibir actualizaciones), si no hay conexión, la copia guardada.
+  // "no-cache" obliga a preguntarle al servidor si hay versión nueva, así los cambios se ven de inmediato.
   if (req.mode === "navigate") {
     e.respondWith(
-      fetch(req)
+      fetch(req.url, { cache: "no-cache", credentials: "same-origin" })
+        .then((res) => (res.redirected ? fetch(req) : res))
         .then((res) => { const copy = res.clone(); caches.open(VERSION).then((c) => c.put(req, copy)); return res; })
         .catch(() => caches.match(req, { ignoreSearch: true }).then((r) => r || caches.match("./index.html")))
     );

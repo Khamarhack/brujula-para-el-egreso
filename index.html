@@ -397,6 +397,7 @@ blockquote.cita cite{display:block;margin-top:.5rem;font-family:var(--body);font
 .dm-overview b.L{flex:none;width:38px;height:38px;border-radius:10px;background:var(--c);color:var(--on-c);display:grid;place-items:center;font-family:var(--display);font-weight:400;font-size:1.25rem}
 .dm-overview .nm{font-weight:700}
 .dm-overview .ds{display:block;color:var(--ink-2);font-size:.95rem;line-height:1.4}
+#momento-ej,#builder{scroll-margin-top:84px}
 .builder .scen{margin-bottom:1rem}
 .builder .scen label{display:block;font-weight:700;margin-bottom:.45rem}
 .builder select,.builder textarea{width:100%;font:inherit;color:var(--ink);background:var(--card-2);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px}
@@ -510,9 +511,15 @@ blockquote.cita cite{display:block;margin-top:.5rem;font-family:var(--body);font
 .count-ring text{font-family:var(--display);font-size:38px;fill:var(--c-3);text-anchor:middle;dominant-baseline:central}
 .obs-group{margin:12px 0}
 .obs-group h4{margin:0 0 .5rem;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
-.safety{margin-top:12px;padding:14px 16px;border-radius:14px;border:1.5px solid var(--help);background:var(--card);background:color-mix(in srgb,var(--help) 12%,var(--card));border:1.5px solid color-mix(in srgb,var(--help) 45%,transparent)}
-.safety p{margin:0 0 .6rem}
-.safety .btn{--c:var(--help);--on-c:var(--on-help)}
+/* aviso sereno (no de alarma) con pasos escalonados */
+.safety{margin-top:12px;padding:16px;border-radius:16px;background:var(--q-2);border:1.5px solid var(--q)}
+.safety p{margin:0 0 .7rem}
+.safety-steps{list-style:none;counter-reset:sf;padding:0;margin:0;display:grid;gap:10px}
+.safety-steps li{counter-increment:sf;position:relative;padding:12px 14px 12px 50px;border-radius:12px;background:var(--card);line-height:1.45;font-size:.98rem}
+.safety-steps li::before{content:counter(sf);position:absolute;left:12px;top:11px;width:28px;height:28px;border-radius:50%;background:var(--q);color:var(--on-q);display:grid;place-items:center;font-family:var(--display);font-size:.95rem}
+.safety-steps strong{display:block;margin-bottom:2px}
+.safety-steps a,.link-btn{color:var(--p-3);font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.link-btn{background:none;border:0;padding:0;font:inherit;font-weight:700;cursor:pointer;display:inline}
 
 .breath{display:flex;flex-direction:column;align-items:center;padding:8px 0}
 .breath-stage{position:relative;width:200px;height:200px;display:grid;place-items:center}
@@ -776,7 +783,7 @@ dialog::backdrop{background:rgba(31,36,40,.55);backdrop-filter:blur(3px);-webkit
           <p class="eyebrow">Norte · Sección 1</p>
           <h3>Mindfulness</h3>
           <p>Volver al momento presente y encontrar tu <em>mente sabia</em>.</p>
-          <div class="tools"><span>Mente sabia</span><span>¿Qué? y ¿Cómo?</span><span>Escalera en espiral</span></div>
+          <div class="tools"><span>Mente sabia</span><span>¿Qué? y ¿Cómo?</span><span>Mi momento actual</span><span>Escalera en espiral</span></div>
           <span class="done"><svg aria-hidden="true"><use href="#i-check"/></svg>Explorada</span>
         </a>
         <a class="dir-card tone-e" href="#/relaciones" data-card="relaciones" data-angle="90">
@@ -840,6 +847,7 @@ dialog::backdrop{background:rgba(31,36,40,.55);backdrop-filter:blur(3px);-webkit
         <a href="#/mindfulness/mentes">Mente sabia</a>
         <a href="#/mindfulness/que">Habilidades ¿Qué?</a>
         <a href="#/mindfulness/como">Habilidades ¿Cómo?</a>
+        <a href="#/mindfulness/momento">Mi momento actual</a>
         <a href="#/mindfulness/escalera">Escalera en espiral</a>
         <a href="#/mindfulness/videos-n">Videos</a>
       </nav>
@@ -944,9 +952,17 @@ dialog::backdrop{background:rgba(31,36,40,.55);backdrop-filter:blur(3px);-webkit
       </div>
     </section>
 
+    <section class="block" id="momento" aria-labelledby="t-momento">
+      <div class="block-head">
+        <h2 id="t-momento"><span class="num">04</span>Practica con lo que estás viviendo ahora</h2>
+        <p class="muted">Lleva las habilidades ¿Qué? y ¿Cómo? a tu situación de este momento, sea cual sea: en casa, en una fila, antes de una conversación o en medio de un día difícil. Son siete pasos cortos. Puedes escribir tus respuestas o solo pensarlas.</p>
+      </div>
+      <div class="card builder" id="momento-ej"></div>
+    </section>
+
     <section class="block" id="escalera" aria-labelledby="t-esc">
       <div class="block-head">
-        <h2 id="t-esc"><span class="num">04</span>Descender por la escalera en espiral</h2>
+        <h2 id="t-esc"><span class="num">05</span>Descender por la escalera en espiral</h2>
         <p class="muted">Un ejercicio guiado para volver a tu centro. Busca un lugar cómodo. Puedes avanzar a tu ritmo, activar el avance automático o escuchar la guía en voz alta.</p>
       </div>
       <div class="spiral" id="spiral" data-lights="off">
@@ -990,7 +1006,7 @@ dialog::backdrop{background:rgba(31,36,40,.55);backdrop-filter:blur(3px);-webkit
 
     <section class="block" id="videos-n" aria-labelledby="t-vn">
       <div class="block-head">
-        <h2 id="t-vn"><span class="num">05</span>Para ver y repasar</h2>
+        <h2 id="t-vn"><span class="num">06</span>Para ver y repasar</h2>
         <p class="muted">Videos cortos en español del canal DBTRU (<em>DBT Skills from Experts</em>).</p>
       </div>
       <div class="videos">
@@ -1282,6 +1298,7 @@ dialog::backdrop{background:rgba(31,36,40,.55);backdrop-filter:blur(3px);-webkit
     <section class="block" aria-labelledby="t-refs">
       <h2 id="t-refs" style="margin-bottom:.8rem">Referencias</h2>
       <ol class="refs">
+        <li>Anthropic. (2026). <em>Claude</em> (versión Opus 5.5) [Modelo de lenguaje de gran tamaño; herramienta de inteligencia artificial usada como apoyo en el diseño y la programación de esta página web]. https://claude.ai</li>
         <li>Boggiano, J. P., &amp; Gagliesi, P. (2018). <em>Terapia dialéctico conductual: Introducción al tratamiento de consultantes con desregulación emocional</em>. Tres Olas.</li>
         <li>Botella García del Cid, L., &amp; Pérez, M. A. (2006). Conciencia plena (mindfulness) y psicoterapia: concepto, evaluación y aplicaciones clínicas. <em>Revista de Psicoterapia, 17</em>(66-67), 77–120. https://doi.org/10.33898/rdp.v17i66/67.907</li>
         <li>DBT: Habilidades del modelo terapéutico dialéctico conductual. (s. f.). [Material académico de curso]. NeuroClass.</li>
@@ -1592,7 +1609,8 @@ $$("[data-video]").forEach(box => {
 });
 
 /* ---------- mini temporizadores ---------- */
-$$(".mini-timer").forEach(btn => {
+$$(".mini-timer").forEach(miniTimer);
+function miniTimer(btn) {
   const total = Number(btn.dataset.seconds) || 30, C = 2 * Math.PI * 13;
   const label = total >= 60 ? `${total / 60} minuto${total > 60 ? "s" : ""}` : `${total} segundos`;
   const idle = () => { btn.classList.remove("running"); btn.innerHTML = `<svg class="ring" viewBox="0 0 32 32" aria-hidden="true"><circle class="bg" cx="16" cy="16" r="13"/><circle class="fg" cx="16" cy="16" r="13" stroke-dasharray="${C}" stroke-dashoffset="0"/></svg>Practicar ${label}`; };
@@ -1615,7 +1633,7 @@ $$(".mini-timer").forEach(btn => {
       if (left <= 0) { clearInterval(iv); iv = null; running.delete(stop); setTimeout(idle, 4000); }
     }, 1000);
   });
-});
+}
 
 /* ---------- mente sabia (diagrama) ---------- */
 (function venn() {
@@ -1855,6 +1873,77 @@ const Voice = (() => {
   render();
 })();
 
+/* ---------- mindfulness: practicar con el momento actual ---------- */
+(function momento() {
+  const box = $("#momento-ej"); if (!box) return;
+  const P = [
+    { k: "sit", sk: "Punto de partida", t: "¿Qué estás viviendo en este momento?", h: "No tiene que ser algo especial. Toca lo que más se parezca o escríbelo con tus palabras.",
+      chips: ["Estoy en casa", "Voy en camino", "Estoy con otras personas", "Estoy haciendo una tarea", "Estoy esperando algo", "Acabo de tener una discusión", "Me cuesta dormir"],
+      ph: "Ej.: Estoy en la sala, esperando a que llegue mi hermana.", label: "Mi situación" },
+    { k: "obs", sk: "Observar", t: "Observa, sin palabras todavía", h: "Durante tres respiraciones, solo nota: tu cuerpo, lo que ves y escuchas, los pensamientos que pasan. Luego toca lo que notaste.",
+      chips: ["Tensión", "Calma", "Cansancio", "Corazón rápido", "Respiración agitada", "Calor", "Frío", "Inquietud", "Pesadez", "Pensamientos acelerados"], timer: 30, label: "Lo que observé" },
+    { k: "des", sk: "Describir", t: "Ponle palabras a los hechos", h: "Describe lo que pasa como lo registraría una cámara. Empieza con «Noto que…». Si aparece una interpretación, nómbrala: «Estoy teniendo el pensamiento de que…».",
+      ph: "Ej.: Noto que tengo los hombros tensos y que la casa está en silencio. Estoy teniendo el pensamiento de que nadie me va a llamar.", label: "Mi descripción" },
+    { k: "jui", sk: "No juzgar", t: "¿Apareció algún juicio?", h: "Si te dijiste algo como «esto es horrible» o «soy un desastre», reescríbelo sin «bueno» ni «malo»: solo hechos y emociones. Si no apareció ninguno, puedes seguir.",
+      ph: "Ej.: En lugar de «soy un desastre»: «Olvidé la cita y me siento frustrado/a».", label: "Sin juicios" },
+    { k: "men", sk: "Mente sabia", t: "¿Desde qué mente estás ahora?", h: "No hay respuestas incorrectas: solo nótalo.", label: "Mi mente ahora",
+      choice: [["racional", "Mente racional", "Pienso en datos y planes, lejos de lo que siento."], ["emocional", "Mente emocional", "Lo que siento está decidiendo por mí."], ["sabia", "Mente sabia", "Noto lo que siento y también lo que sé."]],
+      fb: { racional: "Pregúntate también: ¿qué estoy sintiendo? Incluir la emoción te acerca a la mente sabia.", emocional: "Está bien sentir con fuerza. Respira lento y pregúntate: ¿qué sé de esta situación? Así te acercas a la mente sabia.", sabia: "Muy bien. Quédate un momento ahí, notando ese equilibrio." } },
+    { k: "efe", sk: "Una cosa a la vez · Siendo efectivo", t: "¿Qué vas a hacer ahora, y para qué?", h: "Elige una sola cosa para los próximos minutos que te acerque a lo que quieres o necesitas en esta situación.",
+      ph: "Ej.: Voy a lavar los platos con calma, porque quiero estar más tranquilo/a cuando llegue mi hermana.", label: "Mi siguiente paso" },
+    { k: "par", sk: "Participar", t: "Ahora, entrégate a eso", h: "Haz esa actividad con toda tu atención durante un minuto, como si nada más existiera. Si tu mente se va, regrésala con amabilidad, sin regañarte.", timer: 60 }
+  ];
+  const nuevo = () => ({ i: 0, fin: false, chips: {}, txt: {}, men: null });
+  let st = nuevo();
+  const save = () => { const ta = $("#m-txt", box); if (ta) st.txt[P[st.i].k] = ta.value; };
+
+  function render() {
+    const bar = `<div class="oa-steps" aria-hidden="true">${P.map((_, k) => `<i class="${st.fin || k <= st.i ? "on" : ""}"></i>`).join("")}</div>`;
+    let body;
+    if (st.fin) {
+      const nombre = { racional: "Mente racional", emocional: "Mente emocional", sabia: "Mente sabia" };
+      const filas = P.filter(p => p.label).map((p, k) => {
+        const partes = [...(st.chips[p.k] || [])];
+        if (st.txt[p.k] && st.txt[p.k].trim()) partes.push(st.txt[p.k].trim());
+        if (p.k === "men" && st.men) partes.push(nombre[st.men]);
+        const v = partes.join(" · ");
+        return `<p class="${v ? "" : "empty"}"><b>${k + 1}</b><small>${esc(p.label)}</small>${v ? esc(v) : "(sin respuesta)"}</p>`;
+      }).join("");
+      body = `<div class="b-step"><span class="kind-tag">Tu práctica de ahora</span><h3>Volviste a tu momento presente</h3>
+        <p class="b-help">Esto es lo que notaste y elegiste. Puedes repetir esta práctica en cualquier situación del día.</p>
+        <div class="script">${filas}</div>
+        <div class="btn-row"><button class="btn" type="button" data-m="otra">${icon("i-redo")}Practicar con otro momento</button><button class="btn ghost" type="button" data-m="editar">${icon("i-back")}Revisar mis pasos</button></div></div>`;
+    } else {
+      const p = P[st.i], sel = st.chips[p.k] || new Set();
+      body = `<div class="b-step"><span class="kind-tag">${esc(p.sk)}</span><p class="fine" style="margin:0 0 .2rem">Paso ${st.i + 1} de ${P.length}</p><h3>${esc(p.t)}</h3><p class="b-help">${p.h}</p>
+        ${p.chips ? `<div class="chips" role="group" aria-label="${esc(p.t)}" style="margin-bottom:12px">${p.chips.map(c => `<button type="button" class="chip" data-chip="${esc(c)}" aria-pressed="${sel.has(c)}">${esc(c)}</button>`).join("")}</div>` : ""}
+        ${p.timer ? `<button class="mini-timer" type="button" data-seconds="${p.timer}" style="margin:0 0 12px"></button>` : ""}
+        ${p.choice ? `<div class="oa-opts" role="group" aria-label="${esc(p.t)}">${p.choice.map(([v, n, d]) => `<button type="button" data-men="${v}" aria-pressed="${st.men === v}"${st.men === v ? ' style="border-color:var(--c);background:var(--c-2)"' : ""}><span><strong>${n}</strong><br><span class="fine" style="color:var(--ink-2)">${d}</span></span></button>`).join("")}</div>
+          ${st.men ? `<div class="b-ex" style="margin-top:12px" aria-live="polite">${p.fb[st.men]}</div>` : ""}` : ""}
+        ${p.ph ? `<label class="sr-only" for="m-txt">${esc(p.label || p.t)}</label><textarea id="m-txt" placeholder="${esc(p.ph)}" autocomplete="off">${esc(st.txt[p.k] || "")}</textarea>` : ""}
+        <div class="b-nav"><button class="btn ghost" type="button" data-m="ant"${st.i === 0 ? " disabled" : ""}>${icon("i-back")}Anterior</button><button class="btn" type="button" data-m="sig">${st.i === P.length - 1 ? "Ver mi práctica" : "Siguiente"} ${icon("i-arrow")}</button></div></div>`;
+    }
+    box.innerHTML = bar + body + `<p class="privacy-note">${icon("i-lock")}<span>Lo que escribes o marcas se queda solo en esta pantalla: no se guarda ni se envía.</span></p>`;
+    $$(".mini-timer", box).forEach(miniTimer);
+    $$("[data-chip]", box).forEach(b => b.addEventListener("click", () => {
+      const k = P[st.i].k, s = st.chips[k] || (st.chips[k] = new Set()), on = !s.has(b.dataset.chip);
+      on ? s.add(b.dataset.chip) : s.delete(b.dataset.chip);
+      b.setAttribute("aria-pressed", String(on));
+    }));
+    $$("[data-men]", box).forEach(b => b.addEventListener("click", () => { save(); st.men = b.dataset.men; render(); }));
+    // si el inicio del ejercicio quedó oculto arriba, se vuelve a mostrar (sin saltos si ya está a la vista)
+    const go = (fn) => { save(); fn(); render(); if (box.getBoundingClientRect().top < 72) box.scrollIntoView({ block: "start", behavior: reduceMotion ? "auto" : "smooth" }); };
+    $$("[data-m]", box).forEach(b => b.addEventListener("click", () => {
+      const a = b.dataset.m;
+      if (a === "ant") go(() => st.i--);
+      if (a === "sig") go(() => { if (st.i === P.length - 1) st.fin = true; else st.i++; });
+      if (a === "otra") go(() => { st = nuevo(); });
+      if (a === "editar") go(() => { st.fin = false; st.i = 0; });
+    }));
+  }
+  render();
+})();
+
 /* ---------- emociones: datos ---------- */
 const EMOCIONES = [
   { id: "alegria", n: "Alegría", col: "#96dadf", out: ["Entusiasmo", "Gratitud", "Calma"], mas: ["Orgullo", "Esperanza", "Alivio", "Satisfacción", "Ternura"],
@@ -2054,7 +2143,15 @@ let selectEmotion = () => {};
       $$("[data-o]", box).forEach(b => b.addEventListener("click", () => {
         const on = b.getAttribute("aria-pressed") !== "true"; b.setAttribute("aria-pressed", String(on));
         if (b.dataset.o === "Hacerme daño") {
-          $("#stop-safety", box).innerHTML = on ? `<div class="safety" role="alert"><p><strong>Gracias por notarlo.</strong> Ese impulso es una señal para buscar apoyo ahora mismo. No tienes que pasar por esto solo/a.</p><div class="btn-row" style="margin-top:0"><a class="btn sm" href="tel:106">${icon("i-phone")}Llamar a la Línea 106</a><a class="btn sm" href="tel:123">${icon("i-phone")}Emergencias 123</a><button class="btn sm ghost" type="button" data-open-apoyo style="color:var(--ink)">Ver más líneas</button></div></div>` : "";
+          // Mensaje escalonado y sereno: 1) plan de crisis, 2) red de apoyo, 3) líneas solo si lo demás se agotó
+          $("#stop-safety", box).innerHTML = on ? `<div class="safety" role="status">
+              <p><strong>Gracias por notarlo.</strong> Reconocer ese impulso ya es una forma de cuidarte. Respira despacio y vamos paso a paso:</p>
+              <ol class="safety-steps">
+                <li><strong>Usa tu plan de crisis.</strong> Si construiste uno con tu equipo de salud, búscalo ahora y sigue sus pasos.</li>
+                <li><strong>Acude a tu red de apoyo.</strong> Si no tienes un plan de crisis o no lo tienes a mano, llama o escribe a una persona de confianza y pídele que te acompañe. <a href="#/relaciones/red">Ver mi red de apoyo</a></li>
+                <li><strong>Líneas de atención, si lo demás no fue suficiente.</strong> Solo si sientes que ya usaste tus habilidades y tu red de apoyo, y aun así el malestar no baja o no logras mantenerte a salvo, comunícate con la Línea 106 o con el 123. <button class="link-btn" type="button" data-open-apoyo>Ver líneas de atención</button></li>
+              </ol>
+            </div>` : "";
         }
       }));
     } else if (s === 3) {
